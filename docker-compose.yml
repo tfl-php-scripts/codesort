@@ -4,8 +4,8 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker/php5.6/Dockerfile
-    image: codesort-php5-apache
+      dockerfile: docker/php7.4/Dockerfile
+    image: codesort-php7-apache
     container_name: codesort-apache
     ports:
       - "8075:80"
