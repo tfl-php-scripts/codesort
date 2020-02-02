@@ -4,7 +4,7 @@ Original author is [Jenny](http://prism-perfect.net) / Original readme is [here]
 
 #### I would highly recommend not to use this script for new installations. Although some modifications were made, this script is still pretty old, not very secure, and does not have any tests, that's why please only update it if you have already installed it before.
 
-This version requires at least PHP 5.6.
+This version requires at least PHP 7.2.
 
 ## Upgrading
 
