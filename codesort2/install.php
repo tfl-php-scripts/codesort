@@ -21,7 +21,7 @@ if ($cs->isInstalled()) {
 
     // @todo is it needed?
     {
-        $dir = dirname(__FILE__);
+        $dir = __DIR__;
         // correct for weird DreamHost .name thingy
         $dir = preg_replace('#/\.([a-z]+)#', '', $dir);
         // fix Windows dir slashes
@@ -32,7 +32,7 @@ if ($cs->isInstalled()) {
         $row_opt['images_folder'] = $row_opt['install_folder'] . '/images/';
 
         // figure absolute URL w/out trailing slash
-        $dir = str_replace('/' . basename($dir), '', str_replace($_SERVER['DOCUMENT_ROOT'], '', $dir));
+        $dir = str_replace(array($_SERVER['DOCUMENT_ROOT'], '/' . basename($dir)), '', $dir);
 
         // The URL where you've uploaded this script. NO TRAILING SLASH!
         $row_opt['install_url'] = 'http://' . $_SERVER['SERVER_NAME'] . $dir;
@@ -45,7 +45,7 @@ if ($cs->isInstalled()) {
     if (isset($_POST['fresh_install'])) {
         // FORM is sent
 
-        $query = "CREATE TABLE " . $cs->GetOpt('codes_table') . " (
+        $query = 'CREATE TABLE ' . $cs->GetOpt('codes_table') . " (
       code_id int(6) unsigned NOT NULL auto_increment,
       code_fl int(2) unsigned NOT NULL default '0',
       code_cat int(6) unsigned NOT NULL default '0',
@@ -64,7 +64,7 @@ if ($cs->isInstalled()) {
             $cs->AddErr('Table <strong>' . $cs->GetOpt('codes_table') . '</strong> not created!');
         }
 
-        $query = "CREATE TABLE " . $cs->GetOpt('sizes_table') . " (
+        $query = 'CREATE TABLE ' . $cs->GetOpt('sizes_table') . " (
       size_id int(2) unsigned NOT NULL auto_increment,
       size_order tinyint(3) unsigned NOT NULL default '0',
       size_size varchar(20) NOT NULL default '',
@@ -77,7 +77,7 @@ if ($cs->isInstalled()) {
             $cs->AddSuccess('Table <strong>' . $cs->GetOpt('sizes_table') . '</strong> not created!');
         }
 
-        $query = "CREATE TABLE " . $cs->GetOpt('cat_table') . " (
+        $query = 'CREATE TABLE ' . $cs->GetOpt('cat_table') . " (
       cat_id int(6) unsigned NOT NULL auto_increment,
       cat_fl int(6) unsigned NOT NULL default '0',
       cat_name varchar(50) NOT NULL default '',
@@ -91,7 +91,7 @@ if ($cs->isInstalled()) {
             $cs->AddErr('Table <strong>' . $cs->GetOpt('cat_table') . '</strong> not created!');
         }
 
-        $query = "CREATE TABLE " . $cs->GetOpt('donors_table') . " (
+        $query = 'CREATE TABLE ' . $cs->GetOpt('donors_table') . " (
       donor_id int(6) unsigned NOT NULL auto_increment,
       donor_name varchar(20) NOT NULL default '',
       donor_url varchar(100) NOT NULL default '',
@@ -106,11 +106,11 @@ if ($cs->isInstalled()) {
 
         if (!$cs->GetOpt('collective_script')) {
 
-            $query = "CREATE TABLE " . $cs->GetOpt('collective_table') . " (
+            $query = 'CREATE TABLE ' . $cs->GetOpt('collective_table') . ' (
             fl_id int(8) NOT NULL auto_increment,
             fl_subject varchar(50) NOT NULL,
             PRIMARY KEY  (fl_id)
-        )";
+        )';
 
             if ($cs->db->execute($query)) {
                 $cs->AddSuccess('Table <strong>' . $cs->GetOpt('collective_table') . '</strong> created.');
@@ -119,12 +119,12 @@ if ($cs->isInstalled()) {
             }
         }
 
-        $query = "CREATE TABLE " . $cs->GetOpt('options_table') . " (
+        $query = 'CREATE TABLE ' . $cs->GetOpt('options_table') . ' (
       optkey varchar(30) NOT NULL,
       optvalue varchar(255) NOT NULL,
       optdesc varchar(255) NOT NULL,
       PRIMARY KEY  (optkey)
-    )";
+    )';
 
         if ($cs->db->execute($query)) {
             $cs->AddSuccess('Table <strong>' . $cs->GetOpt('options_table') . '</strong> created.');
@@ -138,7 +138,7 @@ if ($cs->isInstalled()) {
             $value = $cs->db->escape(clean_input($_POST['value'][$id]));
             $desc = $cs->db->escape(clean_input($_POST['desc'][$id]));
 
-            $query = "INSERT INTO " . $cs->GetOpt('options_table') . " SET optkey='$key', optvalue='$value', optdesc='$desc'";
+            $query = 'INSERT INTO ' . $cs->GetOpt('options_table') . " SET optkey='$key', optvalue='$value', optdesc='$desc'";
 
             if ($cs->db->execute($query)) {
                 $cs->AddSuccess('Set <strong>' . $key . '</strong> = ' . $value);

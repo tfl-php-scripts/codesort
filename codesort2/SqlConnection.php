@@ -14,15 +14,15 @@
 
 class SqlConnection
 {
-    var $_host = '';
-    var $_user = '';
-    var $_pass = '';
-    var $_name = '';
-    var $port = 3306;
-    var $_Cnn;
-    var $_Results = [];
-    var $_Res = false;
-    var $_NumQueries = 0;
+    public $_host = '';
+    public $_user = '';
+    public $_pass = '';
+    public $_name = '';
+    public $port = 3306;
+    public $_Cnn;
+    public $_Results = [];
+    public $_Res = false;
+    public $_NumQueries = 0;
 
     /**
      * SqlConnection private constructor
@@ -294,10 +294,6 @@ class SqlConnection
         /* Auto-connect to database */
         if (!$this->_Cnn) {
             $this->connect();
-        }
-
-        if (get_magic_quotes_gpc()) {
-            $value = stripslashes($value);
         }
 
         //check if this function exists

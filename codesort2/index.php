@@ -25,10 +25,10 @@ $cs->GetHeader();
 
         // ____________________________________________________________ LIST UNAPPROVED CODES
 
-        $query = "SELECT code_id, code_image, " . $cs->GetOpt('col_subj') . " AS subject, donor_name, donor_url
-  FROM " . $cs->GetOpt('codes_table') . "
-  LEFT JOIN " . $cs->GetOpt('collective_table') . " ON code_fl=" . $cs->GetOpt('col_id') . "
-  LEFT JOIN " . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
+        $query = 'SELECT code_id, code_image, ' . $cs->GetOpt('col_subj') . ' AS subject, donor_name, donor_url
+  FROM ' . $cs->GetOpt('codes_table') . '
+  LEFT JOIN ' . $cs->GetOpt('collective_table') . ' ON code_fl=' . $cs->GetOpt('col_id') . '
+  LEFT JOIN ' . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
   WHERE code_approved='n'
   ORDER BY code_id " . $cs->GetOpt('sort_order');
 
@@ -140,7 +140,7 @@ $cs->GetHeader();
                 $doc = new DOMDocument();
                 $success = @$doc->load($updatesFeedUrl);
                 if (!$success) {
-                    throw new Exception('Was not able to retrieve updates from remote server');
+                    throw new \RuntimeException('Was not able to retrieve updates from remote server');
                 }
 
                 $domChannel = $doc->getElementsByTagName('channel');

@@ -123,14 +123,14 @@ if ($cs->GetOpt('do_upload')) {
                     $result = false;
                     if (!empty($_FILES['file']['name'][$key])) {
                         $origfilename = $_FILES['file']['name'][$key];
-                        list($result, $filename) = $cs->UploadImage($_FILES['file']['name'][$key], $_FILES['file']['tmp_name'][$key], $_FILES['file']['error'][$key], $_FILES['file']['size'][$key]);
+                        [$result, $filename] = $cs->UploadImage($_FILES['file']['name'][$key], $_FILES['file']['tmp_name'][$key], $_FILES['file']['error'][$key], $_FILES['file']['size'][$key]);
                     }
 
                     if ($result) {
 
                         $code_image = $cs->db->escape($filename);
 
-                        $query = "INSERT INTO " . $cs->GetOpt('codes_table') . "
+                        $query = 'INSERT INTO ' . $cs->GetOpt('codes_table') . "
                       SET code_fl=$listing, code_size=$size_id,
                       code_donor=$code_donor, code_approved='n', code_image='$code_image'";
 
@@ -157,9 +157,9 @@ if ($cs->GetOpt('do_upload')) {
 
                 $recipient = $cs->GetOpt('admin_email');
 
-                $subject = "CodeSort: Code donation";
+                $subject = 'CodeSort: Code donation';
 
-                $mailheaders = "From:CodeSort <" . $cs->GetOpt('admin_email') . ">\n";
+                $mailheaders = 'From:CodeSort <' . $cs->GetOpt('admin_email') . ">\n";
 
                 @mail($recipient, $subject, $msg, $mailheaders);
 

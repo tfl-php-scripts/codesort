@@ -64,7 +64,7 @@ if ($showform) {
 
     </form>
 
-    <?
+    <?php
 
     $cs->GetFooter(false);
 

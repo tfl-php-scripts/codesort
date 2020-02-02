@@ -19,10 +19,10 @@ class CodeSort
         'newUrl' => 'http://scripts.robotess.net',
     ];
 
-    var $_colcfg = array();
-    var $_errors = array();
-    var $_success = array();
-    var $db;
+    public $_colcfg = array();
+    public $_errors = array();
+    public $_success = array();
+    public $db;
 
     private function __construct()
     {
@@ -58,9 +58,9 @@ class CodeSort
         <?php
     }
 
-    function AddOptFromDb()
+    public function AddOptFromDb()
     {
-        $query = "SELECT * FROM " . $this->GetOpt('options_table');
+        $query = 'SELECT * FROM ' . $this->GetOpt('options_table');
         $this->db->execute($query);
         while ($row = $this->db->readRecord()) {
             $this->AddOpt($row['optkey'], $row['optvalue']);
@@ -68,12 +68,12 @@ class CodeSort
         $this->db->freeResult();
     }
 
-    function AddOpt($key, $value)
+    public function AddOpt($key, $value)
     {
         $this->config[$key] = $value;
     }
 
-    function GetAllTables()
+    public function GetAllTables()
     {
         return array(
             $this->GetOpt('codes_table'),
@@ -85,7 +85,7 @@ class CodeSort
         );
     }
 
-    function GetOpt($opt_name, $returnLiteral = false)
+    public function GetOpt($opt_name, $returnLiteral = false)
     {
         if (isset($this->config[$opt_name])) {
             $opt = $this->config[$opt_name];
@@ -105,12 +105,12 @@ class CodeSort
         return $opt;
     }
 
-    function GetCodeImg($img_name)
+    public function GetCodeImg($img_name)
     {
         return '<img src="' . $this->GetOpt('images_url') . '/' . $img_name . '" alt="" />';
     }
 
-    function GetDonorName($name, $url = '')
+    public function GetDonorName($name, $url = '')
     {
         if (!empty($url)) {
             return '<a href="' . $url . '">' . $name . '</a>';
@@ -119,7 +119,7 @@ class CodeSort
         return $name;
     }
 
-    function GetCodeApproved($appr)
+    public function GetCodeApproved($appr)
     {
         if ($appr === 'n') {
             return '<span class="error">No</span>';
@@ -129,12 +129,12 @@ class CodeSort
     }
 
     // get rid of bad characters
-    function FixFilename($orig_name)
+    public function FixFilename($orig_name)
     {
         return strtolower(preg_replace('/[^-_.0-9a-zA-Z]/', '', $orig_name));
     }
 
-    function RenameImage($orig_name, $new_name)
+    public function RenameImage($orig_name, $new_name)
     {
         $filename = $this->FixFilename($new_name);
         $newpath = $this->GetOpt('images_folder') . $filename;
@@ -162,7 +162,7 @@ class CodeSort
         );
     }
 
-    function UploadImage($orig_name, $temp_name, $err, $size, $old_file = null)
+    public function UploadImage($orig_name, $temp_name, $err, $size, $old_file = null)
     {
         if ($err === UPLOAD_ERR_OK) {
 
@@ -242,23 +242,23 @@ class CodeSort
         ];
     }
 
-    function DeleteImage($img_name)
+    public function DeleteImage($img_name)
     {
         $path = $this->GetOpt('images_folder') . $img_name;
         return file_exists($path) && unlink($path);
     }
 
-    function GetHeader($pageTitle = null)
+    public function GetHeader($pageTitle = null)
     {
         require_once('header.php');
     }
 
-    function GetFooter($showNav = true)
+    public function GetFooter($showNav = true)
     {
         require_once('footer.php');
     }
 
-    function ReportErrors()
+    public function ReportErrors()
     {
         if (!empty($this->_errors)) {
             echo '<ul class="error">' . "\n";
@@ -272,7 +272,7 @@ class CodeSort
         }
     }
 
-    function ReportSuccess()
+    public function ReportSuccess()
     {
         if (!empty($this->_success)) {
             echo '<ul class="success">' . "\n";
@@ -286,17 +286,17 @@ class CodeSort
         }
     }
 
-    function AddErr($msg)
+    public function AddErr($msg)
     {
         $this->_errors[] = $msg;
     }
 
-    function AddSuccess($msg)
+    public function AddSuccess($msg)
     {
         $this->_success[] = $msg;
     }
 
-    function NoErr()
+    public function NoErr()
     {
         return !(count($this->_errors) > 0);
     }

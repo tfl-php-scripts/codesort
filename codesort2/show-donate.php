@@ -23,7 +23,7 @@ if ($cs->GetOpt('do_upload')) {
 
     if (!isset($_POST['action'])) {
 
-    $query_donor = "SELECT * FROM ".$cs->GetOpt('donors_table')." ORDER BY donor_name ASC";
+    $query_donor = 'SELECT * FROM ' .$cs->GetOpt('donors_table'). ' ORDER BY donor_name ASC';
 
     $cs->db->execute($query_donor);
 

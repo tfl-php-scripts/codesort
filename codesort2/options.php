@@ -28,7 +28,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'update') {
         $key = $cs->db->escape(clean_input($key));
         $value = $cs->db->escape(clean_input($_POST['value'][$id]));
 
-        $query = "UPDATE ".$cs->GetOpt('options_table')." SET optvalue='$value' WHERE optkey='$key'";
+        $query = 'UPDATE ' .$cs->GetOpt('options_table')." SET optvalue='$value' WHERE optkey='$key'";
 
         if (! $cs->db->execute($query)) {
             $cs->AddErr('Failed to update <strong>'.$key.'</strong>');
@@ -56,7 +56,7 @@ $cs->ReportErrors();
 
 <?php
 
-$query = "SELECT * FROM ".$cs->GetOpt('options_table');
+$query = 'SELECT * FROM ' .$cs->GetOpt('options_table');
 $cs->db->execute($query);
 
 while ($row = $cs->db->readRecord()) {

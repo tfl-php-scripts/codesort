@@ -42,7 +42,7 @@ if ($handle = opendir($cs->GetOpt('images_folder'))) {
     closedir($handle);
 }
 
-$query = "SELECT code_image FROM ".$cs->GetOpt('codes_table');
+$query = 'SELECT code_image FROM ' .$cs->GetOpt('codes_table');
 $cs->db->execute($query);
 while ($row = $cs->db->readRecord()) {
     $imgs[] = $row['code_image'];

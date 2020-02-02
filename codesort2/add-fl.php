@@ -31,9 +31,9 @@ if (isset($_POST['action'])) {
 
             $sql_fl_subject = $cs->db->escape($clean['fl_subject']);
 
-            $query_check = "SELECT COUNT(".$cs->GetOpt('col_id').")
-              FROM ".$cs->GetOpt('collective_table')."
-              WHERE ".$cs->GetOpt('col_subj')."='$sql_fl_subject'";
+            $query_check = 'SELECT COUNT('.$cs->GetOpt('col_id').')
+              FROM '.$cs->GetOpt('collective_table').'
+              WHERE '.$cs->GetOpt('col_subj')."='$sql_fl_subject'";
 
             $num_check = $cs->db->getFirstCell($query_check);
 
@@ -44,7 +44,7 @@ if (isset($_POST['action'])) {
 
         if ($cs->NoErr()) {
 
-            $query = "INSERT INTO ".$cs->GetOpt('collective_table')." (".$cs->GetOpt('col_subj').")
+            $query = 'INSERT INTO '.$cs->GetOpt('collective_table').' ('.$cs->GetOpt('col_subj').")
               VALUES ('$sql_fl_subject')";
 
             if ($cs->db->execute($query)) {
@@ -67,8 +67,8 @@ if (isset($_POST['action'])) {
             $sql_id = (int)$clean['fl_id'][$i];
             $sql_name = $cs->db->escape($clean['fl_subject'][$i]);
 
-            $query = "UPDATE ".$cs->GetOpt('collective_table')."
-              SET ".$cs->GetOpt('col_subj')."='$sql_name'
+            $query = 'UPDATE '.$cs->GetOpt('collective_table').'
+              SET '.$cs->GetOpt('col_subj')."='$sql_name'
               WHERE ".$cs->GetOpt('col_id')."=$sql_id";
 
             if ($cs->db->execute($query)) {
@@ -90,19 +90,19 @@ if (isset($_POST['action'])) {
 
             $sql_id = (int)$_POST['delete_fl_id'][$i];
 
-            $query = "DELETE FROM ".$cs->GetOpt('collective_table')."
-              WHERE ".$cs->GetOpt('col_id')."=$sql_id LIMIT 1";
+            $query = 'DELETE FROM '.$cs->GetOpt('collective_table').'
+              WHERE '.$cs->GetOpt('col_id')."=$sql_id LIMIT 1";
 
             if ($cs->db->execute($query)) {
                 $cs->AddSuccess('Fanlisting <strong>#'.$sql_id.'</strong> deleted.');
 
-                $query_cat = "DELETE FROM ".$cs->GetOpt('cat_table')." WHERE cat_fl=$sql_id";
+                $query_cat = 'DELETE FROM '.$cs->GetOpt('cat_table')." WHERE cat_fl=$sql_id";
 
                 if ($cs->db->execute($query_cat)) {
                     $cs->AddSuccess('All <strong>'.$cs->db->getAffectedRows().'</strong> related categories deleted.');
                 }
 
-                $query_code = "DELETE FROM ".$cs->GetOpt('codes_table')." WHERE code_fl=$sql_id";
+                $query_code = 'DELETE FROM '.$cs->GetOpt('codes_table')." WHERE code_fl=$sql_id";
 
                 if ($cs->db->execute($query_code)) {
                     $cs->AddSuccess('All <strong>'.$cs->db->getAffectedRows().'</strong> related code records deleted.');
@@ -156,12 +156,12 @@ if ($showMain) {
 
         <?php
 
-        $query = "SELECT ".$cs->GetOpt('col_id')." AS fl,
-          ".$cs->GetOpt('col_subj')." AS subject, COUNT(code_id) AS num_code
-          FROM ".$cs->GetOpt('collective_table')."
-          LEFT JOIN ".$cs->GetOpt('codes_table')." ON ".$cs->GetOpt('col_id')."=code_fl
+        $query = 'SELECT '.$cs->GetOpt('col_id').' AS fl,
+          '.$cs->GetOpt('col_subj').' AS subject, COUNT(code_id) AS num_code
+          FROM '.$cs->GetOpt('collective_table').'
+          LEFT JOIN '.$cs->GetOpt('codes_table').' ON '.$cs->GetOpt('col_id').'=code_fl
           GROUP BY fl
-          ORDER BY subject ASC";
+          ORDER BY subject ASC';
 
         $cs->db->execute($query, 'Failed to select fanlistings. Check that your collective_script setting is properly configured.');
 

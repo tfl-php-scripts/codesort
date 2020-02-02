@@ -29,8 +29,8 @@ if (!empty($_GET['size'])) {
 
     $size = (int)$_GET['size'];
 
-    $query_size = "SELECT size_size
-      FROM " . $cs->GetOpt('sizes_table') . "
+    $query_size = 'SELECT size_size
+      FROM ' . $cs->GetOpt('sizes_table') . "
       WHERE size_id=$size LIMIT 1";
 
     $cs->db->execute($query_size);
@@ -41,9 +41,9 @@ if (!empty($_GET['size'])) {
 
         echo '<p>';
 
-        $query_codes = "SELECT code_image, donor_id, donor_name, donor_url, code_fl,code_approved
-          FROM " . $cs->GetOpt('codes_table') . "
-          LEFT JOIN " . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
+        $query_codes = 'SELECT code_image, donor_id, donor_name, donor_url, code_fl,code_approved
+          FROM ' . $cs->GetOpt('codes_table') . '
+          LEFT JOIN ' . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
           WHERE code_fl=$listing AND code_size=$size AND code_approved='y'
           ORDER BY code_id " . $cs->GetOpt('sort_order');
 
@@ -63,8 +63,8 @@ if (!empty($_GET['size'])) {
 
     $cat = (int)$_GET['cat'];
 
-    $query_cat = "SELECT cat_name
-      FROM " . $cs->GetOpt('cat_table') . "
+    $query_cat = 'SELECT cat_name
+      FROM ' . $cs->GetOpt('cat_table') . "
       WHERE cat_id=$cat LIMIT 1";
 
     $cs->db->execute($query_cat);
@@ -74,9 +74,9 @@ if (!empty($_GET['size'])) {
         echo '<h2>' . $row_cat['cat_name'] . "</h2>\n";
 
         $query_codes = 'SELECT code_image, donor_id, donor_name, donor_url, size_size, code_fl,code_approved,code_cat
-          FROM ' . $cs->GetOpt('codes_table') . "
-          JOIN " . $cs->GetOpt('sizes_table') . " ON code_size=size_id
-          LEFT JOIN " . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
+          FROM ' . $cs->GetOpt('codes_table') . '
+          JOIN ' . $cs->GetOpt('sizes_table') . ' ON code_size=size_id
+          LEFT JOIN ' . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
           WHERE code_fl=$listing AND code_cat=$cat AND code_approved='y'
           ORDER BY size_order ASC, code_id " . $cs->GetOpt('sort_order');
 
@@ -96,10 +96,10 @@ if (!empty($_GET['size'])) {
 
     echo "<h2>All Codes</h2>\n";
 
-    $query_codes = "SELECT code_image, donor_id, donor_name, donor_url, size_size, code_fl,code_approved
-      FROM " . $cs->GetOpt('codes_table') . "
-      JOIN " . $cs->GetOpt('sizes_table') . " ON code_size=size_id
-      LEFT JOIN " . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
+    $query_codes = 'SELECT code_image, donor_id, donor_name, donor_url, size_size, code_fl,code_approved
+      FROM ' . $cs->GetOpt('codes_table') . '
+      JOIN ' . $cs->GetOpt('sizes_table') . ' ON code_size=size_id
+      LEFT JOIN ' . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
       WHERE code_fl=$listing AND code_approved='y'
       ORDER BY size_order ASC, code_id " . $cs->GetOpt('sort_order');
 
@@ -114,9 +114,9 @@ $cs->ReportErrors();
 
 // ____________________________________________________________ LIST SIZES/CATS
 
-$query_size = "SELECT size_id, size_size, COUNT(code_id) AS num_size
-  FROM " . $cs->GetOpt('sizes_table') . "
-  JOIN " . $cs->GetOpt('codes_table') . " ON size_id=code_size
+$query_size = 'SELECT size_id, size_size, COUNT(code_id) AS num_size
+  FROM ' . $cs->GetOpt('sizes_table') . '
+  JOIN ' . $cs->GetOpt('codes_table') . " ON size_id=code_size
   WHERE code_fl=$listing AND code_approved='y'
   GROUP BY size_id
   ORDER BY size_order ASC";
@@ -141,9 +141,9 @@ $cs->db->freeResult();
 
 if ($cs->GetOpt('use_cat')) {
 
-    $query_cat = "SELECT cat_id, cat_name, COUNT(code_id) AS num_cat
-  FROM " . $cs->GetOpt('cat_table') . "
-  JOIN " . $cs->GetOpt('codes_table') . " ON cat_id=code_cat
+    $query_cat = 'SELECT cat_id, cat_name, COUNT(code_id) AS num_cat
+  FROM ' . $cs->GetOpt('cat_table') . '
+  JOIN ' . $cs->GetOpt('codes_table') . " ON cat_id=code_cat
   WHERE code_fl=$listing AND code_approved='y'
   GROUP BY cat_id
   ORDER BY cat_name ASC";
@@ -168,8 +168,8 @@ if ($cs->GetOpt('use_cat')) {
 
 } // end if cat
 
-$query_total = "SELECT COUNT(code_id)
-  FROM " . $cs->GetOpt('codes_table') . "
+$query_total = 'SELECT COUNT(code_id)
+  FROM ' . $cs->GetOpt('codes_table') . "
   WHERE code_fl=$listing AND code_approved='y'";
 
 $num_total = $cs->db->getFirstCell($query_total);

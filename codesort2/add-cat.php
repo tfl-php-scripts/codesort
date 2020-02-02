@@ -34,8 +34,8 @@ if (isset($_POST['action'])) {
             $sql_cat_name = $cs->db->escape($clean['cat_name']);
             $sql_cat_fl = (int)$clean['cat_fl'];
 
-            $query_check = "SELECT COUNT(cat_id)
-              FROM ".$cs->GetOpt('cat_table')."
+            $query_check = 'SELECT COUNT(cat_id)
+              FROM '.$cs->GetOpt('cat_table')."
               WHERE cat_name='$sql_cat_name'
               AND cat_fl=$sql_cat_fl";
 
@@ -47,7 +47,7 @@ if (isset($_POST['action'])) {
         }
 
         if ($cs->NoErr()) {
-            $query = "INSERT INTO ".$cs->GetOpt('cat_table')." (cat_fl, cat_name)
+            $query = 'INSERT INTO '.$cs->GetOpt('cat_table')." (cat_fl, cat_name)
               VALUES ('$sql_cat_fl', '$sql_cat_name')";
 
             if ($cs->db->execute($query)) {
@@ -69,7 +69,7 @@ if (isset($_POST['action'])) {
             $sql_id = (int)$clean['cat_id'][$i];
             $sql_name = $cs->db->escape($clean['cat_name'][$i]);
 
-            $query = "UPDATE ".$cs->GetOpt('cat_table')."
+            $query = 'UPDATE '.$cs->GetOpt('cat_table')."
               SET cat_name='$sql_name'
               WHERE cat_id=$sql_id";
 
@@ -92,12 +92,12 @@ if (isset($_POST['action'])) {
 
             $sql_id = (int)$_POST['delete_cat_id'][$i];
 
-            $query = "DELETE FROM ".$cs->GetOpt('cat_table')." WHERE cat_id=$sql_id LIMIT 1";
+            $query = 'DELETE FROM '.$cs->GetOpt('cat_table')." WHERE cat_id=$sql_id LIMIT 1";
 
             if ($cs->db->execute($query)) {
                 $cs->AddSuccess('Category <strong>#'.$sql_id.'</strong> deleted.');
 
-                $query_code = "DELETE FROM ".$cs->GetOpt('codes_table')." WHERE code_cat=$sql_id";
+                $query_code = 'DELETE FROM '.$cs->GetOpt('codes_table')." WHERE code_cat=$sql_id";
 
                 if ($cs->db->execute($query_code)) {
                     $cs->AddSuccess('All <strong>'.$cs->db->getAffectedRows().'</strong> related code records deleted.');
@@ -140,10 +140,10 @@ if ($showMain) {
     <option value="">- or -</option>
     <?php
 
-    $query = "SELECT ".$cs->GetOpt('col_id')." AS fl,
-      ".$cs->GetOpt('col_subj')." AS subject
-      FROM ".$cs->GetOpt('collective_table')."
-      ORDER BY subject ASC";
+    $query = 'SELECT '.$cs->GetOpt('col_id').' AS fl,
+      '.$cs->GetOpt('col_subj').' AS subject
+      FROM '.$cs->GetOpt('collective_table').'
+      ORDER BY subject ASC';
 
     $cs->db->execute($query, null);
 
@@ -177,13 +177,13 @@ if ($showMain) {
 
         <?php
 
-        $query = "SELECT cat_id, cat_name,
-          ".$cs->GetOpt('col_subj')." AS subject, COUNT(code_id) AS num_code
-          FROM ".$cs->GetOpt('cat_table')."
-          LEFT JOIN ".$cs->GetOpt('codes_table')." ON cat_id=code_cat
-          LEFT JOIN ".$cs->GetOpt('collective_table')." ON cat_fl=".$cs->GetOpt('col_id')."
+        $query = 'SELECT cat_id, cat_name,
+          '.$cs->GetOpt('col_subj').' AS subject, COUNT(code_id) AS num_code
+          FROM '.$cs->GetOpt('cat_table').'
+          LEFT JOIN '.$cs->GetOpt('codes_table').' ON cat_id=code_cat
+          LEFT JOIN '.$cs->GetOpt('collective_table').' ON cat_fl='.$cs->GetOpt('col_id').'
           GROUP BY cat_id
-          ORDER BY subject ASC, cat_name ASC";
+          ORDER BY subject ASC, cat_name ASC';
 
         $cs->db->execute($query, 'Failed to select categories. Check that your collective_script setting is properly configured.');
 

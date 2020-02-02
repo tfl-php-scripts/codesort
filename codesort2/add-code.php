@@ -45,8 +45,8 @@ if (isset($_GET['action'])) {
 
             $sql_code_id = (int)$value;
 
-            $query = "SELECT *, code_id AS id, code_fl as fl
-              FROM " . $cs->GetOpt('codes_table') . "
+            $query = 'SELECT *, code_id AS id, code_fl as fl
+              FROM ' . $cs->GetOpt('codes_table') . "
               WHERE code_id=$sql_code_id LIMIT 1";
 
             $cs->db->execute($query);
@@ -69,7 +69,7 @@ if (isset($_GET['action'])) {
             if ($cs->GetOpt('do_upload')) {
                 if (!empty($_FILES['file']['name'][$key])) {
                     $origfilename = $_FILES['file']['name'][$key];
-                    list($result, $filename) = $cs->UploadImage($_FILES['file']['name'][$key], $_FILES['file']['tmp_name'][$key], $_FILES['file']['error'][$key], $_FILES['file']['size'][$key]);
+                    [$result, $filename] = $cs->UploadImage($_FILES['file']['name'][$key], $_FILES['file']['tmp_name'][$key], $_FILES['file']['error'][$key], $_FILES['file']['size'][$key]);
                 }
             } else if (!empty($clean['code_img'][$key])) {
                 $filename = $clean['code_img'][$key];
@@ -84,7 +84,7 @@ if (isset($_GET['action'])) {
                 $code_donor = (int)$clean['code_donor'][$key];
                 $code_approved = (!empty($clean['code_approved'][$key])) ? $cs->db->escape($clean['code_approved'][$key]) : 'n';
 
-                $query = "INSERT INTO " . $cs->GetOpt('codes_table') . "
+                $query = 'INSERT INTO ' . $cs->GetOpt('codes_table') . "
                   SET code_fl=$fl, code_cat=$code_cat, code_size=$code_size,
                   code_donor=$code_donor, code_approved='$code_approved', code_image='$code_image'";
 
@@ -106,9 +106,9 @@ if (isset($_GET['action'])) {
             if ($cs->GetOpt('do_upload')) {
                 if (!empty($_FILES['file']['name'][$key])) {
                     $origfilename = $_FILES['file']['name'][$key];
-                    list($result, $filename) = $cs->UploadImage($_FILES['file']['name'][$key], $_FILES['file']['tmp_name'][$key], $_FILES['file']['error'][$key], $_FILES['file']['size'][$key], $clean['code_oldimg'][$key]);
+                    [$result, $filename] = $cs->UploadImage($_FILES['file']['name'][$key], $_FILES['file']['tmp_name'][$key], $_FILES['file']['error'][$key], $_FILES['file']['size'][$key], $clean['code_oldimg'][$key]);
                 } elseif (!empty($clean['code_image_rename'][$key]) && $clean['code_image_rename'][$key] != $clean['code_oldimg'][$key]) {
-                    list($result, $filename) = $cs->RenameImage($clean['code_oldimg'][$key], $clean['code_image_rename'][$key]);
+                    [$result, $filename] = $cs->RenameImage($clean['code_oldimg'][$key], $clean['code_image_rename'][$key]);
                 } else {
                     $filename = $clean['code_oldimg'][$key];
                     $result = true;
@@ -127,7 +127,7 @@ if (isset($_GET['action'])) {
                 $code_approved = (!empty($clean['code_approved'][$key])) ? $cs->db->escape($clean['code_approved'][$key]) : 'n';
                 $id = (int)$clean['id'][$key];
 
-                $query = "UPDATE " . $cs->GetOpt('codes_table') . "
+                $query = 'UPDATE ' . $cs->GetOpt('codes_table') . "
                   SET code_cat=$code_cat, code_size=$code_size,
                   code_donor=$code_donor, code_approved='$code_approved', code_image='$code_image'
                   WHERE code_id=$id";
@@ -152,7 +152,7 @@ if (isset($_GET['action'])) {
 
             $id = (int)$value;
 
-            $query = "DELETE FROM " . $cs->GetOpt('codes_table') . "
+            $query = 'DELETE FROM ' . $cs->GetOpt('codes_table') . "
               WHERE code_id=$id LIMIT 1";
 
             if ($cs->db->execute($query)) {
@@ -165,11 +165,11 @@ if (isset($_GET['action'])) {
 
 } // end if post
 
-if (!empty($fl) > 0) {
+if (!empty($fl) && (int)$fl > 0) {
 
-    $query = "SELECT " . $cs->GetOpt('col_id') . " AS fl, " . $cs->GetOpt('col_subj') . " AS subject
-      FROM " . $cs->GetOpt('collective_table') . "
-      WHERE " . $cs->GetOpt('col_id') . "=$fl LIMIT 1";
+    $query = 'SELECT ' . $cs->GetOpt('col_id') . ' AS fl, ' . $cs->GetOpt('col_subj') . ' AS subject
+      FROM ' . $cs->GetOpt('collective_table') . '
+      WHERE ' . $cs->GetOpt('col_id') . "=$fl LIMIT 1";
 
     $cs->db->execute($query);
 
@@ -193,7 +193,7 @@ $cs->ReportErrors();
 
 if ($show == 'form') {
 
-    $query = "SELECT * FROM " . $cs->GetOpt('sizes_table') . " ORDER BY size_order ASC";
+    $query = 'SELECT * FROM ' . $cs->GetOpt('sizes_table') . ' ORDER BY size_order ASC';
 
     $cs->db->execute($query);
 
@@ -206,7 +206,7 @@ if ($show == 'form') {
 
     if ($cs->GetOpt('use_cat')) {
 
-        $query = "SELECT * FROM " . $cs->GetOpt('cat_table') . " ORDER BY cat_name ASC";
+        $query = 'SELECT * FROM ' . $cs->GetOpt('cat_table') . ' ORDER BY cat_name ASC';
 
         $cs->db->execute($query);
 
@@ -220,7 +220,7 @@ if ($show == 'form') {
 
     }
 
-    $query = "SELECT * FROM " . $cs->GetOpt('donors_table') . " ORDER BY donor_name ASC";
+    $query = 'SELECT * FROM ' . $cs->GetOpt('donors_table') . ' ORDER BY donor_name ASC';
 
     $cs->db->execute($query);
 
@@ -432,11 +432,11 @@ if ($show == 'form') {
         $limit = '';
     }
 
-    $total = $cs->db->getFirstCell("SELECT COUNT(code_id) FROM " . $cs->GetOpt('codes_table') . " WHERE code_fl=$fl $where");
+    $total = $cs->db->getFirstCell('SELECT COUNT(code_id) FROM ' . $cs->GetOpt('codes_table') . " WHERE code_fl=$fl $where");
 
     echo '<form action="add-code.php" method="get"><p>There are currently <strong>' . $total . '</strong> codes for <strong>' . $subject . '</strong>.';
 
-    $query = "SELECT * FROM " . $cs->GetOpt('sizes_table') . " ORDER BY size_order ASC";
+    $query = 'SELECT * FROM ' . $cs->GetOpt('sizes_table') . ' ORDER BY size_order ASC';
 
     $cs->db->execute($query);
     $num_size = $cs->db->getNumRows();
@@ -477,11 +477,11 @@ if ($show == 'form') {
 
     $cs->db->freeResult();
 
-    $query = "SELECT *
-      FROM " . $cs->GetOpt('codes_table') . "
-      JOIN " . $cs->GetOpt('sizes_table') . " ON code_size=size_id
-      LEFT JOIN " . $cs->GetOpt('cat_table') . " ON code_cat=cat_id
-      LEFT JOIN " . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
+    $query = 'SELECT *
+      FROM ' . $cs->GetOpt('codes_table') . '
+      JOIN ' . $cs->GetOpt('sizes_table') . ' ON code_size=size_id
+      LEFT JOIN ' . $cs->GetOpt('cat_table') . ' ON code_cat=cat_id
+      LEFT JOIN ' . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
       WHERE code_fl=$fl $where
       ORDER BY code_id " . $cs->GetOpt('sort_order') . " $limit";
 
@@ -717,7 +717,7 @@ include('<?php echo $cs->GetOpt('install_folder'); ?>/show-donate.php');
         <tbody>
         <?php
 
-        $query = "SELECT COUNT(code_id) FROM " . $cs->GetOpt('codes_table') . " WHERE code_fl=0";
+        $query = 'SELECT COUNT(code_id) FROM ' . $cs->GetOpt('codes_table') . ' WHERE code_fl=0';
         $num_collective = $cs->db->getFirstCell($query);
 
         ?>
@@ -746,12 +746,12 @@ include('<?php echo $cs->GetOpt('install_folder'); ?>/show-donate.php');
 
         <?php
 
-        $query = "SELECT " . $cs->GetOpt('col_id') . " AS fl,
-     " . $cs->GetOpt('col_subj') . " AS subject, COUNT(code_id) AS num_code
-      FROM " . $cs->GetOpt('collective_table') . "
-      LEFT JOIN " . $cs->GetOpt('codes_table') . " ON " . $cs->GetOpt('col_id') . "=code_fl
+        $query = 'SELECT ' . $cs->GetOpt('col_id') . ' AS fl,
+     ' . $cs->GetOpt('col_subj') . ' AS subject, COUNT(code_id) AS num_code
+      FROM ' . $cs->GetOpt('collective_table') . '
+      LEFT JOIN ' . $cs->GetOpt('codes_table') . ' ON ' . $cs->GetOpt('col_id') . '=code_fl
       GROUP BY fl
-      ORDER BY subject ASC";
+      ORDER BY subject ASC';
 
         $cs->db->execute($query, 'Failed to select fanlistings. Check that your collective_script setting is properly configured.');
 

@@ -32,8 +32,8 @@ if (isset($_POST['action'])) {
             $sql_size_size = $cs->db->escape($clean['size_size']);
             $sql_size_order = (int)$clean['size_order'];
 
-            $query_check = "SELECT COUNT(size_id)
-              FROM ".$cs->GetOpt('sizes_table')."
+            $query_check = 'SELECT COUNT(size_id)
+              FROM '.$cs->GetOpt('sizes_table')."
               WHERE size_size='$sql_size_size'";
 
             $num_check = $cs->db->getFirstCell($query_check);
@@ -45,7 +45,7 @@ if (isset($_POST['action'])) {
 
         if ($cs->NoErr()) {
 
-            $query = "INSERT INTO ".$cs->GetOpt('sizes_table')." (size_order, size_size)
+            $query = 'INSERT INTO '.$cs->GetOpt('sizes_table')." (size_order, size_size)
               VALUES ('$sql_size_order', '$sql_size_size')";
 
             if ($cs->db->execute($query)) {
@@ -69,7 +69,7 @@ if (isset($_POST['action'])) {
             $sql_name = $cs->db->escape($clean['size_size'][$i]);
             $sql_order = (int)$clean['size_order'][$i];
 
-            $query = "UPDATE ".$cs->GetOpt('sizes_table')."
+            $query = 'UPDATE '.$cs->GetOpt('sizes_table')."
               SET size_order='$sql_order', size_size='$sql_name'
               WHERE size_id=$sql_id";
 
@@ -92,12 +92,12 @@ if (isset($_POST['action'])) {
 
             $sql_id = (int)$_POST['delete_size_id'][$i];
 
-            $query = "DELETE FROM ".$cs->GetOpt('sizes_table')." WHERE size_id=$sql_id LIMIT 1";
+            $query = 'DELETE FROM '.$cs->GetOpt('sizes_table')." WHERE size_id=$sql_id LIMIT 1";
 
             if ($cs->db->execute($query)) {
                 $cs->AddSuccess('Size <strong>#'.$sql_id.'</strong> deleted.');
 
-                $query_code = "DELETE FROM ".$cs->GetOpt('codes_table')." WHERE code_size=$sql_id";
+                $query_code = 'DELETE FROM '.$cs->GetOpt('codes_table')." WHERE code_size=$sql_id";
 
                 if ($cs->db->execute($query_code)) {
                     $cs->AddSuccess('All <strong>'.$cs->db->getAffectedRows().'</strong> related code records deleted.');
