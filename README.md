@@ -6,7 +6,7 @@ Original author is [Jenny](http://prism-perfect.net) / Original readme is [here]
 
 This version requires at least PHP 7.2.
 
-## Upgrading
+## Upgrading instructions
 
 I'm not providing support for those who have version lower than CodeSort 2.0.
 
