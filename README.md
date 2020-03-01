@@ -1,4 +1,4 @@
-# CodeSort2 Enhanced 
+# CodeSort Enhanced (v 2.2) for PHP 7
 
 Original author is [Jenny](http://prism-perfect.net) / Original readme is [here](codesort2/readme.txt).
 
@@ -10,7 +10,7 @@ This version requires at least PHP 7.2.
 
 I'm not providing support for those who have version lower than CodeSort 2.0.
 
-If you are using an old version of CodeSort 2.0 or CodeSort 2.1:
+If you are using CodeSort 2.0 or CodeSort 2.1 (old version by Jenny) or 2.2.* (my version):
 
 1. **Back up all your current CodeSort2 configurations, files, and databases first.**
 2. Take note of your database information in all your `codesort2/codes-config.php` files.
