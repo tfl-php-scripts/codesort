@@ -6,7 +6,7 @@ Testing showing:
 
 <?php
 
-// CodeSort 2.2 donation form
+// CodeSort 2.3 donation form
 // subject: Whole Collective
 
 $listing = 0;

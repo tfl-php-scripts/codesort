@@ -1,4 +1,23 @@
 <?php
+/*****************************************************************************
+ * CodeSort
+ *
+ * Copyright (c) Jenny Ferenc <jenny@prism-perfect.net>
+ * Copyright (c) 2019 by Ekaterina (contributor) http://scripts.robotess.net
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 require_once('codes-config.php');
 require_once('functions.php');
@@ -274,50 +293,50 @@ if ($showLookup) {
 
 if (!$showForm && !$showLookup) {
 
-?>
+    ?>
 
-<h2>Donors</h2>
+    <h2>Donors</h2>
 
-<?php
+    <?php
 
-$query = 'SELECT codes_donors.*, COUNT(code_id) AS num_code
+    $query = 'SELECT codes_donors.*, COUNT(code_id) AS num_code
       FROM ' . $cs->GetOpt('donors_table') . '
       LEFT JOIN ' . $cs->GetOpt('codes_table') . ' ON donor_id=code_donor
       GROUP BY donor_id
       ORDER BY donor_name ASC';
 
-$cs->db->execute($query);
+    $cs->db->execute($query);
 
-$num_donor = $cs->db->getNumRows();
+    $num_donor = $cs->db->getNumRows();
 
-echo '<p>There are currently <strong>' . $num_donor . '</strong> total donors. <a href="add-donor.php?action=new">Add a new donor?</a>';
+    echo '<p>There are currently <strong>' . $num_donor . '</strong> total donors. <a href="add-donor.php?action=new">Add a new donor?</a>';
 
-if ($num_donor > 0) { ?><br/>
-Be aware that if you delete a donor, you will also be deleting all codes for that donor as well.</p>
+    if ($num_donor > 0) { ?><br/>
+        Be aware that if you delete a donor, you will also be deleting all codes for that donor as well.</p>
 
-<table>
+        <table>
 
-    <thead>
-    <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Codes</th>
-        <th scope="col">Options</th>
-    </tr>
-    </thead>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Codes</th>
+                <th scope="col">Options</th>
+            </tr>
+            </thead>
 
-    <tbody>
-    <?php
+            <tbody>
+        <?php
 
-    while ($row = $cs->db->readRecord()) {
+        while ($row = $cs->db->readRecord()) {
 
-        $class = (isset($class) && $class == 'odd') ? 'even' : 'odd';
+            $class = (isset($class) && $class == 'odd') ? 'even' : 'odd';
 
-        echo '<tr class="' . $class . '">';
-        echo '<td>' . $cs->GetDonorName($row['donor_name'], $row['donor_url']) . '</td>';
+            echo '<tr class="' . $class . '">';
+            echo '<td>' . $cs->GetDonorName($row['donor_name'], $row['donor_url']) . '</td>';
 
-        echo '<td class="number">' . $row['num_code'] . '</td>';
+            echo '<td class="number">' . $row['num_code'] . '</td>';
 
-        echo '<td>
+            echo '<td>
 <form action="add-donor.php" method="get">
 <input type="submit" name="action" value="lookup" />
 <input type="submit" name="action" value="edit" />
@@ -329,18 +348,18 @@ Be aware that if you delete a donor, you will also be deleting all codes for tha
 </form>
 </td>';
 
-        echo "</tr>\n";
+            echo "</tr>\n";
 
-    }
+        }
 
-    echo "</tbody>\n";
-    echo "</table>\n";
+        echo "</tbody>\n";
+        echo "</table>\n";
 
     } else {
         echo "</p>\n";
     }
 
     $cs->db->freeResult();
-    }
+}
 
-    $cs->GetFooter();
+$cs->GetFooter();
