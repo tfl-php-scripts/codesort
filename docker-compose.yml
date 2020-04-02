@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker/php7.4/Dockerfile
+      dockerfile: docker/php7/Dockerfile
     image: codesort-php7-apache
     container_name: codesort-apache
     ports:
@@ -29,10 +29,9 @@ services:
       MYSQL_DATABASE: codesort_docker
       MYSQL_USER: codesort_docker
       MYSQL_PASSWORD: password
-    ports:
-      - "13326:3306"
     volumes:
       - ./docker/mysql/init-db.sql:/docker-entrypoint-initdb.d/01-dump.sql:ro
+      - ./docker/mysql/init-extratables.sql:/docker-entrypoint-initdb.d/01-extras.sql:ro
     networks:
       - internal
 
@@ -50,7 +49,7 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - "8655:8080"
+      - 8011:80
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: password

@@ -33,9 +33,9 @@ require_once('SqlConnection.php');
 class CodeSort
 {
     private $config = [
-        'version' => 2.2,
-        'url' => 'http://prism-perfect.net/codesort',
-        'newUrl' => 'http://scripts.robotess.net',
+        'version' => '[Robotess Fork] 1.0',
+        'oldUrl' => 'http://prism-perfect.net/codesort',
+        'url' => 'http://scripts.robotess.net',
     ];
 
     public $_colcfg = array();
@@ -71,9 +71,9 @@ class CodeSort
     public function printCredits()
     {
         ?>
-        Powered by <a href="<?= $this->GetOpt('newUrl') ?>" target="_blank"
-                      title="PHP scripts collection: Enthusiast, CodeSort, SiteSkin for PHP 7">CodeSort <?= $this->GetOpt('version') ?></a> (2020 - ...) /
-        Original script by <a href="<?= $this->GetOpt('url') ?>" target="_blank"><?= $this->GetOpt('url') ?></a>
+        Powered by <a href="<?= $this->GetOpt('url') ?>" target="_blank"
+                      title="PHP Scripts: Enthusiast, Siteskin, Codesort - ported to PHP 7">CodeSort <?= $this->GetOpt('version') ?></a>
+        (original author: <a href="<?= $this->GetOpt('oldUrl') ?>" target="_blank">Jenny</a>)
         <?php
     }
 
