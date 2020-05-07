@@ -35,7 +35,7 @@ class CodeSort
     private $config = [
         'version' => '[Robotess Fork] 1.0',
         'oldUrl' => 'http://prism-perfect.net/codesort',
-        'url' => 'http://scripts.robotess.net',
+        'url' => 'https://scripts.robotess.net',
     ];
 
     public $_colcfg = array();
