@@ -1,12 +1,13 @@
+FROM composer:2.0
 FROM php:7.4-apache
 
-MAINTAINER Robotess.net
-
-WORKDIR /app
+MAINTAINER Scripts.robotess.net
 
 RUN apt-get update && \
-    apt-get install -y libfreetype6-dev libjpeg62-turbo-dev && \
+    apt-get install -y libfreetype6-dev libjpeg62-turbo-dev zip unzip libicu-dev && \
     docker-php-ext-install pdo pdo_mysql mysqli && \
+    docker-php-ext-configure intl &&\
+    docker-php-ext-install intl &&\
     docker-php-ext-configure gd --with-freetype --with-jpeg  &&  \
     docker-php-ext-install gd
 
@@ -24,8 +25,16 @@ RUN echo 'sendmail_path = /usr/bin/mhsendmail --smtp-addr mailhog:1025' >> /usr/
 RUN echo 'display_errors = on' >> /usr/local/etc/php/php.ini \
     && echo 'log_errors = off' >> /usr/local/etc/php/php.ini
 
-RUN chown -R www-data:www-data /app
-RUN mkdir -p app/samples/images
-RUN chmod -R 777 app/samples/images
 RUN a2enmod rewrite
 RUN service apache2 restart
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+WORKDIR /app
+
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["apache2-foreground"]
+
+COPY --from=0 /usr/bin/composer /usr/bin/composer
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER 1
