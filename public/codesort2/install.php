@@ -332,7 +332,7 @@ if ($cs->isInstalled()) {
 
         </form>
 
-        <?php
+<?php
 
     }
 }

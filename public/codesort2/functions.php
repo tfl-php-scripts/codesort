@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*****************************************************************************
  * CodeSort
  *
@@ -21,27 +22,26 @@
 
 // DON'T CHANGE THESE (unless you really want larger/different allowed files)
 $codesort['max_file_size'] = 30720; // 30kb
-$codesort['file_types_array'] = array(
+$codesort['file_types_array'] = [
     'jpg',
     'png',
     'gif',
-);
+];
 
 require_once('SqlConnection.php');
 
 // requires SqlConnection class
 class CodeSort
 {
-    private $config = [
+    private array $config = [
         'version' => '[Robotess Fork] 1.0',
         'oldUrl' => 'http://prism-perfect.net/codesort',
         'url' => 'https://scripts.robotess.net',
     ];
 
-    public $_colcfg = array();
-    public $_errors = array();
-    public $_success = array();
-    public $db;
+    public array $_errors = array();
+    public array $_success = array();
+    public SqlConnection $db;
 
     private function __construct()
     {
@@ -72,8 +72,8 @@ class CodeSort
     {
         ?>
         Powered by <a href="<?= $this->GetOpt('url') ?>" target="_blank"
-                      title="PHP Scripts: Enthusiast, Siteskin, Codesort - ported to PHP 7">CodeSort <?= $this->GetOpt('version') ?></a>
-        (original author: <a href="<?= $this->GetOpt('oldUrl') ?>" target="_blank">Jenny</a>)
+                      title="PHP Scripts: Enthusiast, Siteskin, Listing Admin, FanUpdate, CodeSort - ported to PHP 7">CodeSort <?= $this->GetOpt('version') ?></a>
+        (originally by <a href="<?= $this->GetOpt('oldUrl') ?>" target="_blank">Jenny</a>)
         <?php
     }
 

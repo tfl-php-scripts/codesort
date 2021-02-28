@@ -22,15 +22,15 @@
 
 class SqlConnection
 {
-    public $_host = '';
-    public $_user = '';
-    public $_pass = '';
-    public $_name = '';
-    public $port = 3306;
+    public string $_host = '';
+    public string $_user = '';
+    public string $_pass = '';
+    public string $_name = '';
+    public int $port = 3306;
     public $_Cnn;
-    public $_Results = [];
+    public array $_Results = [];
     public $_Res = false;
-    public $_NumQueries = 0;
+    public int $_NumQueries = 0;
 
     /**
      * SqlConnection private constructor
