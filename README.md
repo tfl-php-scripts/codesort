@@ -25,11 +25,7 @@ If you are using CodeSort 2.0 or CodeSort 2.1 (old version by Jenny) or CodeSort
 
 1. **Back up all your current CodeSort configurations, files, and databases first.**
 2. Take note of your database information in all your `codesort2/codes-config.php` files.
-3.
-
-Download [an archive of the codesort2 folder in this repository](https://gitlab.com/tfl-php-scripts/codesort/-/archive/master/codesort-master.zip?path=public)
-. Extract the archive.
-
+3. Download an archive - please choose appropriate link from the table above. Extract the archive.
 4. Replace your current `codesort2/` files with the `codesort2/` files from this repository. Make sure that the only
    difference between your codes-config.php files and the ones from samples folder are credentials.
 
