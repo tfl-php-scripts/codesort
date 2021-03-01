@@ -18,7 +18,7 @@ artifacts:
       - .gitlab-ci.yml
   script:
     - apt-get update -yqq
-    - apt-get install -yqq git
+    - apt-get install -yqq git zip unzip
     - mkdir -p php74-$CI_COMMIT_REF_NAME
     - cp -r public/* php74-$CI_COMMIT_REF_NAME
     - curl -sS https://getcomposer.org/installer | php
