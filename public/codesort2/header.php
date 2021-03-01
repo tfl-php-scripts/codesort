@@ -24,15 +24,16 @@
 
 <head>
 
-<title><?php if (!empty($pageTitle)) { echo $pageTitle.' | '; } ?>CodeSort ADMIN</title>
+    <title><?php if (!empty($pageTitle)) {
+            echo $pageTitle . ' | ';
+        } ?>CodeSort ADMIN</title>
 
-<link rel="stylesheet" type="text/css" media="screen" href="style.css?t=20070217" />
-<link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css?t=20070217"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
 
-<script type="text/javascript" src="codesort.js"></script>
-
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<meta name="robots" content="noindex,nofollow" />
+    <script type="text/javascript" src="codesort.js?v=2"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="noindex,nofollow"/>
 
 </head>
 
@@ -40,6 +41,6 @@
 
 <div id="wrap">
 
-<h1><span>CodeSort</span></h1>
+    <h1><span>CodeSort</span></h1>
 
-<div id="main">
+    <div id="main">

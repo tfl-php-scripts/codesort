@@ -147,60 +147,16 @@ $cs->GetHeader();
     <div class="col2 sidebox">
 
         <h2>Feed</h2>
-
         <?php
-
-        function printFeed()
-        {
-            $updatesFeedUrl = 'https://scripts.robotess.net/projects/codesort/atom.xml';
-            $posts = '';
-
-            try {
-                $doc = new DOMDocument();
-                $success = @$doc->load($updatesFeedUrl);
-                if (!$success) {
-                    throw new \RuntimeException('Was not able to retrieve updates from remote server');
-                }
-
-                $domChannel = $doc->getElementsByTagName('channel');
-                if ($domChannel->length !== 1) {
-                    echo '<p class="success">Feed is empty</p>';
-                }
-
-                if ($domChannel->item(0)->getElementsByTagName('item')->length === 0) {
-                    echo '<p class="success">Feed is empty</p>';
-                }
-
-                /** @var DOMElement $node */
-                foreach ($domChannel->item(0)->getElementsByTagName('item') as $node) {
-                    $title = $node->getElementsByTagName('title')->item(0)->nodeValue;
-                    $link = $node->getElementsByTagName('link')->item(0)->nodeValue;
-                    $pubdate = $node->getElementsByTagName('pubDate')->item(0)->nodeValue;
-                    $description = $node->getElementsByTagName('description')->item(0)->nodeValue;
-
-                    $timestamp = strtotime($pubdate);
-                    $daylong = date('l', $timestamp);
-                    $monlong = date('F', $timestamp);
-                    $yyyy = date('Y', $timestamp);
-                    $dth = date('jS', $timestamp);
-                    $min = date('i', $timestamp);
-                    $_24hh = date('H', $timestamp);
-
-                    $posts .= <<<MARKUP
-                <h4>{$title}<br />
-                <small>{$daylong}, {$dth} {$monlong} {$yyyy}, {$_24hh}:{$min} &bull; <a href="{$link}" target="_blank">permalink</a></small></h4>
-                <blockquote>{$description}</blockquote>
-MARKUP;
-                }
-            } catch (Exception $e) {
-                echo '<p class="error">Was not able to connect to feed: ' . $e->getMessage() . '</p>';
-            }
-
-            echo $posts;
-        }
-
-        printFeed();
+        $feedUrl = 'https://scripts.robotess.net/projects/codesort/atom.xml';
         ?>
+        <script>
+            showRss(`<?= $feedUrl?>?date=<?=date('Y-m-d');?>`);
+        </script>
+
+        <div id="rss-feed">
+            <p>Nothing here yet. Please check <a href="<?= $feedUrl; ?>" target="_blank">feed</a> manually.</p>
+        </div>
 
     </div>
 
