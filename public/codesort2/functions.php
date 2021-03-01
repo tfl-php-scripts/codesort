@@ -34,7 +34,7 @@ require_once('SqlConnection.php');
 class CodeSort
 {
     private array $config = [
-        'version' => '[Robotess Fork] 1.0',
+        'version' => '[Robotess Fork] 1.0.1',
         'oldUrl' => 'http://prism-perfect.net/codesort',
         'url' => 'https://scripts.robotess.net',
     ];
