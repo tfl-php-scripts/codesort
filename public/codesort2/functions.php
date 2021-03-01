@@ -50,7 +50,8 @@ class CodeSort
         $this->config = array_merge($this->config, $codesort);
         $this->config['col_id'] = $coltable[$this->GetOpt('collective_script', true)]['id'];
         $this->config['col_subj'] = $coltable[$this->GetOpt('collective_script', true)]['subject'];
-        $this->db = SqlConnection::self($this->GetOpt('dbhost'), $this->GetOpt('dbuser'), $this->GetOpt('dbpass'), $this->GetOpt('dbname'));
+        $this->db = SqlConnection::self($this->GetOpt('dbhost'), $this->GetOpt('dbuser'), $this->GetOpt('dbpass'),
+            $this->GetOpt('dbname'));
     }
 
     /**
@@ -71,9 +72,9 @@ class CodeSort
     public function printCredits()
     {
         ?>
-        Powered by <a href="<?= $this->GetOpt('url') ?>" target="_blank"
-                      title="PHP Scripts: Enthusiast, Siteskin, Listing Admin, FanUpdate, CodeSort - ported to PHP 7">CodeSort <?= $this->GetOpt('version') ?></a>
-        (originally by <a href="<?= $this->GetOpt('oldUrl') ?>" target="_blank">Jenny</a>)
+        <p>Powered by <a href="<?= $this->GetOpt('url') ?>" target="_blank"
+                         title="PHP Scripts: Enthusiast, Siteskin, Listing Admin, FanUpdate, CodeSort - ported to PHP 7">CodeSort <?= $this->GetOpt('version') ?></a>
+            (originally by <a href="<?= $this->GetOpt('oldUrl') ?>" target="_blank">Jenny</a>)</p>
         <?php
     }
 
@@ -129,10 +130,21 @@ class CodeSort
         return '<img src="' . $this->GetOpt('images_url') . '/' . $img_name . '" alt="" />';
     }
 
+    public function GetDonorLink($content, $name, $url = '')
+    {
+        if (!empty($url)) {
+            return '<a href="' . $url . '" target="_blank" title="By ' . $name . '">' . $content . '</a>';
+        } elseif (!empty($name)) {
+            return '<a href="#" target="_blank" title="By ' . $name . '">' . $content . '</a>';
+        }
+
+        return $content;
+    }
+
     public function GetDonorName($name, $url = '')
     {
         if (!empty($url)) {
-            return '<a href="' . $url . '">' . $name . '</a>';
+            return '<a href="' . $url . '" target="_blank">' . $name . '</a>';
         }
 
         return $name;
@@ -192,7 +204,8 @@ class CodeSort
             // add timestamp to filename if exists
             // don't remove or new files could over-write existing ones (same names)
             if (file_exists($newpath)) {
-                $filename = substr($orig_name, 0, strlen($orig_name) - strlen($filenameext)) . time() . '.' . $filenameext;
+                $filename = substr($orig_name, 0,
+                        strlen($orig_name) - strlen($filenameext)) . time() . '.' . $filenameext;
             } else {
                 $filename = $orig_name;
             }
@@ -339,6 +352,82 @@ class CodeSort
         return $isCodeSortInstalled;
     }
 
+    public function printAllCatsLimited(int $limit = 5)
+    {
+        $cated = [];
+
+        while ($row = $this->db->readRecord()) {
+            if (!isset($cated[$row['cat_id']])) {
+                $cated[$row['cat_id']] = [];
+            }
+
+            $cated[$row['cat_id']][] = $row;
+        }
+
+        $lastCat = '';
+        foreach ($cated as $catId => $data) {
+            if ($lastCat !== $catId) {
+                $more = '';
+                if (count($data) > $limit) {
+                    $more = ' // <a href="' . clean_input($_SERVER['PHP_SELF']) . '?cat=' . $catId . '#codes">More? (' . count($data) . ')</a>';
+                    shuffle($data);
+                } else {
+                    asort($data);
+                }
+                echo '<h3>' . $data[0]['cat_name'] . $more . "</h3>\n";
+                echo '<p>';
+                $lastCat = $catId;
+            }
+
+            $k = 1;
+            foreach ($data as $row) {
+                echo $this->GetDonorLink($this->GetCodeImg($row['code_image']),
+                        $row['donor_name'], $row['donor_url']) . "\n";
+                if (++$k > $limit) {
+                    break;
+                }
+            }
+        }
+    }
+
+    public function printAllSizesLimited(int $limit = 5)
+    {
+        $sized = [];
+
+        while ($row = $this->db->readRecord()) {
+            if (!isset($sized[$row['size_size']])) {
+                $sized[$row['size_size']] = [];
+            }
+
+            $sized[$row['size_size']][] = $row;
+        }
+
+        $lastSize = '';
+        foreach ($sized as $size => $data) {
+            if ($lastSize !== $size) {
+                $more = '';
+                if (count($data) > $limit) {
+                    $more = ' // <a href="' . clean_input($_SERVER['PHP_SELF']) . '?size=' . $data[0]['size_id'] . '#codes">More? (' . count($data) . ')</a>';
+                    shuffle($data);
+                } else {
+                    asort($data);
+                }
+                echo '<h3>' . $size . $more . "</h3>\n";
+                echo '<p>';
+                $lastSize = $size;
+            }
+
+            $k = 1;
+            foreach ($data as $row) {
+                echo $this->GetDonorLink($this->GetCodeImg($row['code_image']),
+                        $row['donor_name'], $row['donor_url']) . "\n";
+                if (++$k > $limit) {
+                    break;
+                }
+            }
+        }
+    }
+
     public function printCodesFromLastQuery()
     {
         $sizedDonored = [];
@@ -367,7 +456,12 @@ class CodeSort
             $lastDonor = '';
             foreach ($data as $donorId => $donorData) {
                 if ($lastDonor !== $donorId) {
-                    echo '<p>From ' . $this->GetDonorName($donorData[0]['donor_name'], $donorData[0]['donor_url']) . "<br />\n";
+                    if (!isset($donorData[0]['donor_name']) || strcmp($donorData[0]['donor_name'], '') === 0) {
+                        echo "<p>No donor <br />\n";
+                    } else {
+                        echo '<p>From ' . $this->GetDonorName($donorData[0]['donor_name'],
+                                $donorData[0]['donor_url']) . "<br />\n";
+                    }
                     echo '<p>';
                     $lastDonor = $donorId;
                 }

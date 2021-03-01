@@ -115,12 +115,12 @@ if (!empty($_GET['size'])) {
 
     echo "<h2>All Codes</h2>\n";
 
-    $query_codes = 'SELECT code_image, donor_id, donor_name, donor_url, size_size, code_fl,code_approved
+    $query_codes = 'SELECT code_image, donor_id, donor_name, donor_url, size_size, code_fl,code_approved, size_id
       FROM ' . $cs->GetOpt('codes_table') . '
       JOIN ' . $cs->GetOpt('sizes_table') . ' ON code_size=size_id
       LEFT JOIN ' . $cs->GetOpt('donors_table') . " ON code_donor=donor_id
       WHERE code_fl=$listing AND code_approved='y'
-      ORDER BY size_order ASC, code_id " . $cs->GetOpt('sort_order');
+      ORDER BY size_order, code_id " . $cs->GetOpt('sort_order');
 
     $cs->db->execute($query_codes);
 

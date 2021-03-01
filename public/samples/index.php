@@ -1,4 +1,4 @@
-<a href="show_codes.php">Show codes</a>
+<a href="show_codes.php">Show codes</a> / <a href="show_codes_listing.php">Show codes</a>
 
 <br/><br/>
 

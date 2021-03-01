@@ -7,5 +7,5 @@ Testing showing:
 <?php
 
 $listing = 1;
-
-include('../codesort2/show-codes.php');
+$limit = 3;
+include('../codesort2/show-codes-default-all-cats.php');
